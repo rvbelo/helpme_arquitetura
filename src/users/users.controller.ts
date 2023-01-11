@@ -7,7 +7,6 @@ import { AuthService } from 'src/auth/auth.service';
 import { ResultDto } from './dto/result.dto';
 import { UserRole } from './user-roles.enum';
 import { LoginDto } from './dto/login.dto';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @Controller('users')
 export class UsersController {
@@ -24,7 +23,6 @@ export class UsersController {
     };
   }
 
-  @UseGuards(JwtAuthGuard)
   @Get()
   findAll() {
     return this.usersService.findAll();
@@ -57,10 +55,5 @@ export class UsersController {
   async login(@Body() loginDto:LoginDto){
    
     return this.authService.login(loginDto);
-  }
-
-  @Post('login-token')
-  async loginToken(@Request() req, @Body() data) {
-    return this.authService.loginToken(data.token);    
   }
 }

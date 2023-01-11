@@ -6,13 +6,11 @@ import { UsersModule } from '../users/users.module';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from './constants';
-import { TokenModule } from 'src/token/token.module';
 
 @Module({
   imports: [
     UsersModule,
     PassportModule,
-    TokenModule,
     JwtModule.register({
       secret: jwtConstants.secret,
       signOptions: { expiresIn: '60s' },
