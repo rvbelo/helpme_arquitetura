@@ -1,6 +1,5 @@
-// import {RandomUUIDOptions} from 'node:crypto';
-import { Entity, Column, PrimaryGeneratedColumn,   Unique, CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from 'typeorm';
-
+import { Entity, Column, PrimaryGeneratedColumn,   Unique, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, OneToMany } from 'typeorm';
+import { Request } from 'src/request/entities/request.entity'; 
 @Entity()
 @Unique(['email'])
 export class User{
@@ -51,6 +50,14 @@ export class User{
 
     @DeleteDateColumn()
     deletedAt: Date;
+
+    requestId: number;
+
+    @OneToMany(() => Request, request => request.userId)
+    request: Request[];
+
+    @OneToMany(() => Request, request => request.architectId)
+    requested: Request[];
 }
 
 

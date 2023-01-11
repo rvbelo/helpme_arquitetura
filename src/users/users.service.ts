@@ -1,8 +1,11 @@
-import { Inject, Injectable, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import { UserRepository } from './entities/users.repository'
+import { UserRole } from './user-roles.enum';
+import * as bcrypt from 'bcrypt';
+import { ResultDto } from './dto/result.dto';
 
 @Injectable()
 export class UsersService {
@@ -12,17 +15,37 @@ export class UsersService {
     private usersRepository: UserRepository,
   ) {}
 
+    async createUser(
+      createUserDto: CreateUserDto,
+      role: UserRole,
+    ): Promise<ResultDto>{
+      const { email, name, password } = createUserDto;
+      const user = this.usersRepository.create();
+      user.email = email;
+      user.name = name;
+      user.role = role;
+      user.status = true;
+      user.password = bcrypt.hashSync(password, 8);
+      return this.usersRepository.save(user)
+      .then((result) => {
+        return <ResultDto>{
+         status: true,
+          message: "Usuário cadastrado com sucesso"
+        }
+      })
+      .catch((error) => {
+        return <ResultDto>{
+          status: false,
+          message: "Houve um errro ao cadastrar o usuário"
+        }
+      })    
+    }
+
+
   async findAuth(email: string): Promise<User | undefined> {
     return this.users.find({email : email});
   }
  
-  async create(createUserDto: CreateUserDto): Promise<User> {
-    if (createUserDto.password != createUserDto.passwordConfirmation) {
-      throw new UnprocessableEntityException('As senhas não conferem');
-    } else {
-      return this.usersRepository.save(createUserDto);
-    }
-  }
 
   findAll() {
     return this.usersRepository.find();
@@ -51,6 +74,4 @@ export class UsersService {
       const user = await this.findOne(id);
       return this.usersRepository.remove(user);
     }
-
-
 }

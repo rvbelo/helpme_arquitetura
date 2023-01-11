@@ -31,8 +31,13 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
     @IsNotEmpty({ message: "Selecione o Tipo de Usuário" })
     role: string;
 
+    @IsOptional()
     @IsNotEmpty({ message: "Informe uma senha" })
-    password: string;
+    password?: string;
+
+    @IsOptional()
+    @IsNotEmpty({ message: "Confirme a senha" })
+    passwordConfirmation?: string;
 
     @IsOptional()
     status?: boolean;

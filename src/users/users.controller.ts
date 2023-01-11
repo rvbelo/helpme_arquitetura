@@ -2,9 +2,12 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Request }
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { ReturnUserDto } from './dto/return-user.dto'
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from 'src/auth/auth.service';
+import { ResultDto } from './dto/result.dto';
+import { UserRole } from './user-roles.enum';
+import { LoginDto } from './dto/login.dto';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @Controller('users')
 export class UsersController {
@@ -13,14 +16,15 @@ export class UsersController {
   @Post()
   async create(
     @Body() createUserDto: CreateUserDto,
-  ): Promise<ReturnUserDto> {
-    const user = await this.usersService.create(createUserDto);
+  ): Promise<ResultDto> {
+    const user = await this.usersService.createUser(createUserDto, UserRole.ADMIN);
     return {
-      user,
+      status: true,
       message: 'Cadastrado com sucesso',
     };
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get()
   findAll() {
     return this.usersService.findAll();
@@ -48,9 +52,15 @@ export class UsersController {
     };
   }
 
-  @UseGuards(AuthGuard('local'))
+  // @UseGuards(AuthGuard('local'))
   @Post('login')
-  async login(@Request() req){
-    return this.authService.login(req.user);
+  async login(@Body() loginDto:LoginDto){
+   
+    return this.authService.login(loginDto);
+  }
+
+  @Post('login-token')
+  async loginToken(@Request() req, @Body() data) {
+    return this.authService.loginToken(data.token);    
   }
 }

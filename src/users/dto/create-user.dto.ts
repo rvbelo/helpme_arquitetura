@@ -1,6 +1,9 @@
 import { IsBoolean, IsEmail, IsNotEmpty, IsOptional, IsString} from 'class-validator';
 
 export class CreateUserDto {
+    static ADMIN(createUserDto: CreateUserDto, ADMIN: any): import("../entities/user.entity").User | PromiseLike<import("../entities/user.entity").User> {
+      throw new Error('Method not implemented.');
+    }
     @IsString()
     @IsNotEmpty({ message: "Informe o nome do usuário" })
     name: string;
