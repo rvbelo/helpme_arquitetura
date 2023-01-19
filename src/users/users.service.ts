@@ -9,7 +9,7 @@ import { ResultDto } from './dto/result.dto';
 
 @Injectable()
 export class UsersService {
-  users: any;
+  users: User[];
   constructor(
     @Inject('USERS_REPOSITORY')
     private usersRepository: UserRepository,
@@ -43,7 +43,7 @@ export class UsersService {
   }
 
   async findAuth(email: string): Promise<User | undefined> {
-    return this.users.find({ email: email });
+    return this.findByEmail(email);
   }
 
   findAll() {
@@ -56,6 +56,13 @@ export class UsersService {
       throw new NotFoundException('Usuário não encontrado');
     }
     return user;
+  }
+
+  async findByEmail(email: string): Promise<User> {
+    const user = await this.usersRepository.findOneBy({email});
+    if(!user)
+      throw new NotFoundException('Usuário não encontrado!');
+    return user
   }
 
   async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
