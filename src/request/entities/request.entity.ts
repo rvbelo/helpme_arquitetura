@@ -14,9 +14,6 @@ export class Request extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ nullable: false })
-  userId: number;
-
   @Column({ nullable: false, type: 'varchar', length: 200 })
   service: string;
 
