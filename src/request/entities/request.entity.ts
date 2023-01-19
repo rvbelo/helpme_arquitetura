@@ -14,9 +14,6 @@ export class Request extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ nullable: false })
-  userId: number;
-
   @Column({ nullable: false, type: 'varchar', length: 200 })
   service: string;
 
@@ -37,4 +34,7 @@ export class Request extends BaseEntity {
 
   @ManyToOne(() => User, (userId: User) => userId.requests)
   public user: User;
+
+  @ManyToOne(() => User, (architectId: User) => architectId.requests)
+  public architect: User;
 }

@@ -58,6 +58,9 @@ export class User{
   @DeleteDateColumn()
   deletedAt: Date;
 
-  @OneToMany(() => Request, (request: Request) => request.userId)
+  @OneToMany(() => Request, (request: Request) => request.user)
   public requests: Request[]
+
+  @OneToMany(() => Request, (request: Request) => request.user)
+  public works: Request[]
 }

@@ -12,6 +12,9 @@ export class CreateRequestDto {
   @IsNumber()
   user: User;
 
+  @IsNumber()
+  architect: User;
+
   status: string;
 
   createdAt: string;
