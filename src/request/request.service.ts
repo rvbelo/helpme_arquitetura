@@ -12,7 +12,6 @@ export class RequestService {
   ) {}
 
   create(createRequestDto: CreateRequestDto): Promise<Request> {
-    console.log(createRequestDto)
     const request = this.requestRepository.create(createRequestDto);
     return this.requestRepository.save(request);
   }
