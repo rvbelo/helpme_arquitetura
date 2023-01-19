@@ -1,26 +1,20 @@
 import { PartialType } from '@nestjs/swagger';
+import { IsNotEmpty, IsString } from 'class-validator';
 import { CreateRequestDto } from './create-request.dto';
-import {  IsEmail, IsNotEmpty, IsString} from 'class-validator';
 
 export class UpdateRequestDto extends PartialType(CreateRequestDto) {
-    @IsString()
-    @IsNotEmpty({ message: "Selecione o Tipo de Serviço" })
-    service: string;
+  @IsNotEmpty({ message: 'Selecione o tipo de serviço' })
+  service: string;
 
-    @IsEmail()
-    @IsNotEmpty({ message: "Fale um pouco sobre o serviço" })
-    description: string;
+  @IsString()
+  @IsNotEmpty({ message: 'Fale um pouco sobre o seu serviço solicitado' })
+  description: string;
 
-    userId: number;
+  status: string;
 
-    architectId: number;
+  createdAt: string;
 
-    status: boolean;
+  updatedAt: string;
 
-    createdAt: string;
-
-    updatedAt: string;
-
-    deletedAt: string;
-
+  deletedAt: string;
 }

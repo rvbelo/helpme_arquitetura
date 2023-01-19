@@ -15,14 +15,14 @@ async function bootstrap() {
   );
 
   const config = new DocumentBuilder()
-  .setTitle('API')
-  .setDescription('Generating Documentation')
-  .setVersion('1.0')
-  .addTag('User')
-  .build();
+    .setTitle('API')
+    .setDescription('Generating Documentation')
+    .setVersion('1.0')
+    .addTag('User')
+    .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('documentation', app, document);
-
-  await app.listen(3000);
+  app.enableCors()
+  await app.listen(4200);
 }
 bootstrap();

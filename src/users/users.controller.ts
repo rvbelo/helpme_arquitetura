@@ -1,4 +1,14 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Request } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseGuards,
+  Request,
+} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -7,22 +17,28 @@ import { AuthService } from 'src/auth/auth.service';
 import { ResultDto } from './dto/result.dto';
 import { UserRole } from './user-roles.enum';
 import { LoginDto } from './dto/login.dto';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @Controller('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService, private authService: AuthService) {}
+  constructor(
+    private readonly usersService: UsersService,
+    private authService: AuthService,
+  ) {}
 
   @Post()
-  async create(
-    @Body() createUserDto: CreateUserDto,
-  ): Promise<ResultDto> {
-    const user = await this.usersService.createUser(createUserDto, UserRole.ADMIN);
+  async create(@Body() createUserDto: CreateUserDto): Promise<ResultDto> {
+    const user = await this.usersService.createUser(
+      createUserDto,
+      UserRole.ADMIN,
+    );
     return {
       status: true,
       message: 'Cadastrado com sucesso',
     };
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get()
   findAll() {
     return this.usersService.findAll();
@@ -52,8 +68,7 @@ export class UsersController {
 
   // @UseGuards(AuthGuard('local'))
   @Post('login')
-  async login(@Body() loginDto:LoginDto){
-   
+  async login(@Body() loginDto: LoginDto) {
     return this.authService.login(loginDto);
   }
 }

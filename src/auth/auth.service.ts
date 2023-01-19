@@ -5,13 +5,18 @@ import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthService {
-    constructor(
-      private usersService: UsersService,
-      private jwtService: JwtService
-    ) {}
+  constructor(
+    private usersService: UsersService,
+    private jwtService: JwtService,
+  ) {}
 
   async validateUser(email: string, password: string): Promise<any> {
     const user = await this.usersService.findAuth(email);
+
+    console.log(user);
+
+    return false;
+
     if (user && bcrypt.compareSync(password, user.password)) {
       const { password, ...result } = user;
       return result;
@@ -20,9 +25,8 @@ export class AuthService {
   }
 
   async login(user: any) {
-    const payload = { username: user.name, sub: user.id, role: user.role, email: user.email };
     return {
-      access_token: this.jwtService.sign(payload),
+      access_token: this.jwtService.sign(user),
     };
   }
 }

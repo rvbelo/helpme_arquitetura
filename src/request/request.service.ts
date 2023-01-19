@@ -1,22 +1,20 @@
-import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { ResultDto } from 'src/users/dto/result.dto';
-import { Repository } from 'typeorm';
+import { Inject, Injectable } from '@nestjs/common';
 import { CreateRequestDto } from './dto/create-request.dto';
 import { UpdateRequestDto } from './dto/update-request.dto';
+import { Request } from './entities/request.entity';
+import { RequestRepository } from './entities/request.repository';
 
 @Injectable()
 export class RequestService {
-
   constructor(
-    // @InjectRepository(Request) private readonly repo: Repository<Request>
-  ) { }
+    @Inject('REQUEST_REPOSITORY')
+    private requestRepository: RequestRepository,
+  ) {}
 
-  // creates(createRequestDto: CreateRequestDto) {
-  //   const obj = Object.create(createRequestDto);
-  //   const request = this.repo.save(obj);
-  //   return request
-  // }
+  create(createRequestDto: CreateRequestDto): Promise<Request> {
+    const request = this.requestRepository.create(createRequestDto);
+    return this.requestRepository.save(request);
+  }
 
   findAll() {
     return `This action returns all request`;

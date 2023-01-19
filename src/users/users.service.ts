@@ -2,7 +2,7 @@ import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
-import { UserRepository } from './entities/users.repository'
+import { UserRepository } from './entities/users.repository';
 import { UserRole } from './user-roles.enum';
 import * as bcrypt from 'bcrypt';
 import { ResultDto } from './dto/result.dto';
@@ -15,49 +15,48 @@ export class UsersService {
     private usersRepository: UserRepository,
   ) {}
 
-    async createUser(
-      createUserDto: CreateUserDto,
-      role: UserRole,
-    ): Promise<ResultDto>{
-      const { email, name, password } = createUserDto;
-      const user = this.usersRepository.create();
-      user.email = email;
-      user.name = name;
-      user.role = role;
-      user.status = true;
-      user.password = bcrypt.hashSync(password, 8);
-      return this.usersRepository.save(user)
+  async createUser(
+    createUserDto: CreateUserDto,
+    role: UserRole,
+  ): Promise<ResultDto> {
+    const { email, name, password } = createUserDto;
+    const user = this.usersRepository.create();
+    user.email = email;
+    user.name = name;
+    user.role = role;
+    user.status = true;
+    user.password = bcrypt.hashSync(password, 8);
+    return this.usersRepository
+      .save(user)
       .then((result) => {
         return <ResultDto>{
-         status: true,
-          message: "Usuário cadastrado com sucesso"
-        }
+          status: true,
+          message: 'Usuário cadastrado com sucesso',
+        };
       })
       .catch((error) => {
         return <ResultDto>{
           status: false,
-          message: "Houve um errro ao cadastrar o usuário"
-        }
-      })    
-    }
-
+          message: 'Houve um errro ao cadastrar o usuário',
+        };
+      });
+  }
 
   async findAuth(email: string): Promise<User | undefined> {
-    return this.users.find({email : email});
+    return this.users.find({ email: email });
   }
- 
 
   findAll() {
     return this.usersRepository.find();
   }
 
   async findOne(id: number): Promise<User> {
-    const user = await this.usersRepository.findOneBy({ id })
+    const user = await this.usersRepository.findOneBy({ id });
     if (!user) {
-    throw new NotFoundException("Usuário não encontrado")
+      throw new NotFoundException('Usuário não encontrado');
     }
-    return user
-    }
+    return user;
+  }
 
   async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
     const item = await this.usersRepository.preload({
@@ -70,8 +69,8 @@ export class UsersService {
     return this.usersRepository.save(item);
   }
 
-    async remove(id: number) {
-      const user = await this.findOne(id);
-      return this.usersRepository.remove(user);
-    }
+  async remove(id: number) {
+    const user = await this.findOne(id);
+    return this.usersRepository.remove(user);
+  }
 }

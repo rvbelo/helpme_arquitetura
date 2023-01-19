@@ -1,52 +1,53 @@
-import { IsBoolean, IsEmail, IsNotEmpty, IsOptional, IsString} from 'class-validator';
+import {
+  IsEmail,
+  IsNotEmpty,
+  IsString,
+} from 'class-validator';
 
 export class CreateUserDto {
-    static ADMIN(createUserDto: CreateUserDto, ADMIN: any): import("../entities/user.entity").User | PromiseLike<import("../entities/user.entity").User> {
-      throw new Error('Method not implemented.');
-    }
-    @IsString()
-    @IsNotEmpty({ message: "Informe o nome do usuário" })
-    name: string;
+  @IsString()
+  @IsNotEmpty({ message: 'Informe o nome do usuário' })
+  name: string;
 
-    @IsEmail()
-    @IsNotEmpty({ message: "Digite o e-mail do Usuário" })
-    email: string;
+  @IsEmail()
+  @IsNotEmpty({ message: 'Digite o e-mail do Usuário' })
+  email: string;
 
-    @IsString()
-    @IsNotEmpty({ message: "Digite o telefone do Usuário" })
-    phone: string;
+  @IsString()
+  @IsNotEmpty({ message: 'Digite o telefone do Usuário' })
+  phone: string;
 
-    @IsString()
-    @IsNotEmpty({ message: "Selecione o gênero do Usuário" })
-    gender: string;
+  @IsString()
+  @IsNotEmpty({ message: 'Selecione o gênero do Usuário' })
+  gender: string;
 
-    @IsString()
-    @IsNotEmpty({ message: "Selecione a data de nascimento do Usuário" })
-    birthdate: string;
+  @IsString()
+  @IsNotEmpty({ message: 'Selecione a data de nascimento do Usuário' })
+  birthdate: string;
 
-    @IsString()
-    @IsNotEmpty({ message: "Digite o CPF do Usuário" })
-    cpf: string;
+  @IsString()
+  @IsNotEmpty({ message: 'Digite o CPF do Usuário' })
+  cpf: string;
 
-    @IsString()
-    @IsNotEmpty({ message: "Selecione o Tipo de Usuário" })
-    role: string;
+  @IsString()
+  @IsNotEmpty({ message: 'Selecione o Tipo de Usuário' })
+  role: string;
 
-    @IsNotEmpty({ message: "Informe uma senha" })
-    password: string;
+  @IsNotEmpty({ message: 'Informe uma senha' })
+  password: string;
 
-    @IsNotEmpty({ message: "Confirme a senha" })
-    passwordConfirmation: string;
+  @IsNotEmpty({ message: 'Confirme a senha' })
+  passwordConfirmation: string;
 
-    status: boolean;
+  status: boolean;
 
-    confirmationToken: string;
+  confirmationToken: string;
 
-    recoverToken: string;
+  recoverToken: string;
 
-    createdAt: string;
+  createdAt: string;
 
-    updatedAt: string;
+  updatedAt: string;
 
-    deletedAt: string;
+  deletedAt: string;
 }

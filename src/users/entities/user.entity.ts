@@ -1,66 +1,63 @@
-import { Entity, Column, PrimaryGeneratedColumn,   Unique, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, OneToMany } from 'typeorm';
-import { Request } from 'src/request/entities/request.entity'; 
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  Unique,
+  CreateDateColumn,
+  UpdateDateColumn,
+  DeleteDateColumn,
+  OneToMany,
+} from 'typeorm';
+import { Request } from 'src/request/entities/request.entity';
+
 @Entity()
 @Unique(['email'])
 export class User{
-    save() {
-        throw new Error('Method not implemented.');
-    }
-    @PrimaryGeneratedColumn()
-    id: number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column({ nullable: false, type: 'varchar', length: 200 })
-    name: string;
+  @Column({ nullable: false, type: 'varchar', length: 200 })
+  name: string;
 
-    @Column({ nullable: false, type: 'varchar', length: 200 })
-    email: string;
+  @Column({ nullable: false, type: 'varchar', length: 200 })
+  email: string;
 
-    @Column({ nullable: false, type: 'varchar', length: 11 })
-    phone: string;
+  @Column({ nullable: false, type: 'varchar', length: 11 })
+  phone: string;
 
-    @Column({ nullable: false, type: 'varchar', length: 1 })
-    gender: string;
+  @Column({ nullable: false, type: 'varchar', length: 1 })
+  gender: string;
 
-    @Column({ length: 8 })
-    birthdate: string;
+  @Column({ length: 8 })
+  birthdate: string;
 
-    @Column({ nullable: false, type: 'varchar', length: 11 })
-    cpf: string;
+  @Column({ nullable: false, type: 'varchar', length: 11 })
+  cpf: string;
 
-    @Column({ nullable: false, type: 'varchar', length: 20 })
-    role: string;
+  @Column({ nullable: false, type: 'varchar', length: 20 })
+  role: string;
 
-    @Column({ nullable: false })
-    password: string;
+  @Column({ nullable: false })
+  password: string;
 
-    @Column({ nullable: false, default: true })
-    status: boolean;
+  @Column({ nullable: false, default: true })
+  status: boolean;
 
-    @Column({ nullable: true, type: 'varchar', length: 64 })
-    confirmationToken: string;
-  
-    @Column({ nullable: true, type: 'varchar', length: 64 })
-    recoverToken: string;
+  @Column({ nullable: true, type: 'varchar', length: 64 })
+  confirmationToken: string;
 
-    @CreateDateColumn()
-    createdAt: Date;
-  
-    @UpdateDateColumn()
-    updatedAt: Date;
+  @Column({ nullable: true, type: 'varchar', length: 64 })
+  recoverToken: string;
 
-    @DeleteDateColumn()
-    deletedAt: Date;
+  @CreateDateColumn()
+  createdAt: Date;
 
-    requestId: number;
+  @UpdateDateColumn()
+  updatedAt: Date;
 
-    @OneToMany(() => Request, request => request.userId)
-    request: Request[];
+  @DeleteDateColumn()
+  deletedAt: Date;
 
-    @OneToMany(() => Request, request => request.architectId)
-    requested: Request[];
+  @OneToMany(() => Request, (request: Request) => request.userId)
+  public requests: Request[]
 }
-
-
-
-
-

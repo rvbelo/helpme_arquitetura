@@ -1,22 +1,22 @@
-import { IsNotEmpty, IsString} from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { User } from 'src/users/entities/user.entity';
 
 export class CreateRequestDto {
-    @IsString()
-    @IsNotEmpty({ message: "Selecione o Tipo de Serviço" })
-    service: string;
+  @IsNotEmpty({ message: 'Selecione o tipo de serviço' })
+  service: string;
 
-    @IsNotEmpty({ message: "Fale um pouco sobre o serviço" })
-    description: string;
+  @IsString()
+  @IsNotEmpty({ message: 'Fale um pouco sobre o seu serviço solicitado' })
+  description: string;
 
-    userId: number;
+  @IsNumber()
+  user: User;
 
-    architectId: number;
+  status: string;
 
-    status: boolean;
+  createdAt: string;
 
-    createdAt: string;
+  updatedAt: string;
 
-    updatedAt: string;
-
-    deletedAt: string;
+  deletedAt: string;
 }
