@@ -60,4 +60,7 @@ export class User{
 
   @OneToMany(() => Request, (request: Request) => request.user)
   public requests: Request[]
+
+  @OneToMany(() => Request, (request: Request) => request.user)
+  public works: Request[]
 }

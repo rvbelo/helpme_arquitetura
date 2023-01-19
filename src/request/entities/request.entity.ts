@@ -34,4 +34,7 @@ export class Request extends BaseEntity {
 
   @ManyToOne(() => User, (userId: User) => userId.requests)
   public user: User;
+
+  @ManyToOne(() => User, (architectId: User) => architectId.requests)
+  public architect: User;
 }
